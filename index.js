@@ -2,21 +2,21 @@
 
 /**
  * ### Challenge `processFirstItem`
- * 
+ *
  * @instructions
  * Implement a higher-order function called `processFirstItem`.
  * It takes two arguments:
  * @param stringList an array of strings.
  * @param callback function that takes a string as its argument.
  * @returns the result of invoking `callback` with the FIRST element in `stringList`.
- * 
+ *
  * Example of usage of this higher-order function:
  * Invoking `processFirstItem` passing `['foo', 'bar']` and `(str) => str + str`,
  * should return 'foofoo'.
 */
-function processFirstItem(stringList, callback) {
-  return callback(stringList[0])
-}
+// function processFirstItem(stringList, callback) {
+//   return callback(stringList[0])
+// }
 
 // ⭐️ Example Challenge END ⭐️
 
@@ -25,12 +25,17 @@ function processFirstItem(stringList, callback) {
 
 /* Task 1: `counterMaker`
  * Study the code for counter1 and counter2. Answer the questions below.
- * 
+ *
  * 1. What is the difference between counter1 and counter2?
- * 
+
+  counter1 is a higher oder function while counter2 is a single function accessing a global variable.
+ *
  * 2. Which of the two uses a closure? How can you tell?
- * 
- * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
+
+ Both. They are each a working function.
+ *
+ * 3. In what scenario would the counter1 code be preferable? If you want to make sure that nothing else can mess with the count.
+ In what scenario would counter2 be better? If you want to be able to change the starting count.
  *
 */
 
@@ -52,39 +57,49 @@ function counter2() {
 }
 
 
-/* Task 2: inning() 
+/* Task 2: inning()
 
-Write a function called `inning` that returns a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
+Write a function called `inning` that returns a random number of points that a team scored in an inning.
+This should be a whole number between 0 and 2. */
 
-function inning(/*Code Here*/){
+function inning(){
+  return Math.floor(Math.random() * 3)
+  }
 
-    /*Code Here*/
 
-}
 
 /* Task 3: finalScore()
 
-Write a higher order function called `finalScore` that accepts the callback function `inning` (from above) and a number of innings and and returns the final score of the game in the form of an object.
+Write a higher order function called `finalScore` that accepts the callback function `inning` (from above)
+ and a number of innings and and returns the final score of the game in the form of an object.
 
-For example, 
+For example,
 
-finalScore(inning, 9) might return: 
+finalScore(inning, 9) might return:
 {
   "Home": 11,
   "Away": 5,
 }
 
-*/ 
 
-function finalScore(/*code Here*/){
+*/
 
-  /*Code Here*/
 
+function finalScore(func, innings){
+  let home = 0;
+  let away = 0;
+  for (let i = 0; i < innings - 1; i++){
+    home = home + inning();
+    away = away + inning();
+  }
+  return {Home: home, Away: away};
 }
 
-/* Task 4: 
+console.log(finalScore(inning, 9));
 
-Create a function called `scoreboard` that accepts the following parameters: 
+/* Task 4:
+
+Create a function called `scoreboard` that accepts the following parameters:
 
 (1) Callback function `getInningScore`
 (2) Callback function `inning`
@@ -102,9 +117,20 @@ and returns the score at each pont in the game, like so:
 9th inning: awayTeam - homeTeam
 Final Score: awayTeam - homeTeam */
 
-
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function getInningScore(func){
+  return {Away: func(), Home: func()};
+}
+function scoreboard(getInningScore, inning, innings ) {
+  let  home = 0;
+  let  away = 0;
+  for(let i = 1; i < innings+1; i++){
+    let score = getInningScore(inning);
+    home = home + score.Home;
+    away = away + score.Away;
+    console.log('Inning ' + i + ': Home:'+ score.Home + ' - Away:' + score.Away);
+  }
+    console.log('Final Score: Home:'+ home +  ' - Away:' + away);
 }
 
 
+scoreboard(getInningScore, inning, 9);
