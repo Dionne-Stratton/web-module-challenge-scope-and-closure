@@ -28,7 +28,7 @@
  *
  * 1. What is the difference between counter1 and counter2?
 
-  counter1 is a higher oder function (invoking a function within a function) while counter2 is a single function accessing a global variable.
+  counter1 is a higher oder function while counter2 is a single function accessing a global variable.
  *
  * 2. Which of the two uses a closure? How can you tell?
 
